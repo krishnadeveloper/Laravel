@@ -1,0 +1,37 @@
+It's possible to remove public from url in laravel5. Follow these steps:
+
+## step 1 copy all file from public and paste on root directory
+
+## step 2 open index.php file replace with
+
+ require __DIR__.'/../bootstrap/autoload.php';
+to
+
+ require __DIR__.'/bootstrap/autoload.php';
+and
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
+to
+
+$app = require_once __DIR__.'/bootstrap/app.php';
+And remove all cache and cookies
+
+## Step3
+vendor\laravel\framework\src\Illuminate\Routing\UrlGenerator.php
+
+if ($this->isValidUrl($path)) {
+            return $path;
+        }
+
+        $root = $this->formatRoot($this->formatScheme($secure));
+
+        return $this->removeIndex($root).'/'.trim($path, '/');
+
+to 
+
+if ($this->isValidUrl($path)) {
+            return $path;
+        }
+        $root = $this->formatRoot($this->formatScheme($secure));
+
+        return $this->removeIndex($root).'/public/'.trim($path, '/');
